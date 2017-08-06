@@ -49,6 +49,8 @@ public class index extends HttpServlet {
 			correct = "Too low";
 		} else {
 			correct = "Correct";
+			session.invalidate();
+			doGet(request, response);
 		}
 		session.setAttribute("randomsession", randomsession);
 		session.setAttribute("correct", correct);
