@@ -31,7 +31,6 @@ public class index extends HttpServlet {
 		}
 		session.setAttribute("randomsession", randomsession);
 		
-//		int randomsession = randomGenerator.nextInt(101-0) + 1;
 		
 		
 		request.getRequestDispatcher("WEB-INF/views/home.jsp").forward(request, response);
@@ -40,8 +39,21 @@ public class index extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-
-		doGet(request, response);
+		String guess = request.getParameter("number");
+		Integer randomsession = (Integer) session.getAttribute("randomsession");
+		int guesstoInt = Integer.parseInt(guess);
+		String correct = null;
+		if (guesstoInt > randomsession) {
+			correct = "Too high";
+		} else if (guesstoInt < randomsession){
+			correct = "Too low";
+		} else {
+			correct = "Correct";
+		}
+		session.setAttribute("randomsession", randomsession);
+		session.setAttribute("correct", correct);
+		session.setAttribute("guesstoInt", guesstoInt);
+		response.sendRedirect("/NumberGame/index");
 	}
 
 }
